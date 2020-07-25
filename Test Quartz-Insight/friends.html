@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AMIS</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+        <script>
+            const app = new Vue({
+                el: '#friends',
+
+                data: {
+                    result: " ",
+                    responseAvailable: false,
+                },
+                methods: {
+                    fetchAPIData( ) { 
+                    }
+                }
+            })
+            this.responseAvailable = false;
+            fetch("https://qieam-api.herokuapp.com/api/friends", {
+                "method": "GET",
+                    "headers": {
+                        Origin: "https://qieam-api.herokuapp.com",
+                        "User": "2b4693677eb1e9fb34e33c6de9e9e877",
+                        "Password": "2b4693677eb1e9fb34e33c6de9e9e877",
+                    }
+            })
+            .then(response => { 
+                if(response.ok){
+                    return response.json()    
+                } else{
+                    alert("Server returned " + response.status + " : " + response.statusText);
+                }                
+            })
+            .then(response => {
+                this.result = response.body; 
+                this.responseAvailable = true;
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        </script>
+        <div id="friends">
+            <div v-if = "responseAvailable == true">
+                <p>
+                 {{result}}
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
